@@ -6,7 +6,7 @@
 	"test":"TEST"  
   },
   "scripts": {
-    "api-test-zinio": "newman run TEST/API-Catalog-Zinio.postman_collection.json"
+    "api-test-zinio": "newman run TEST/API-Catalog-Zinio.postman_collection.json --reporters junit --reporter-junit-export newman.xml"
   },
   "author": "Rodrigo Troncoso",
   "dependencies": {
