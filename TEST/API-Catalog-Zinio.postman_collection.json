@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "b74a3235-6bdf-44cc-aa38-a8d9ea8606f8",
+		"name": "API-Catalog-Zinio",
+		"description": "Automatización de operación GET para catalogo de productos /// Automation of the GET operation for the catalog of products",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get_Catalog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d74efdd-8647-4f26-88cc-1e0a740fa270",
+						"exec": [
+							"pm.test(\"Código de estado es igual a 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"JSON tiene formato correcto para ser procesado\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\"); ",
+							"});",
+							"",
+							"pm.test(\"La respuesta debe ser valido y contener un cuerpo\", function () {",
+							"     // Validación del estatus 200",
+							"     pm.response.to.be.ok; // Revisa si la respuesta es correcta y verifica los diferentes mensajes de error y redireccionamiento del servidor",
+							"     pm.response.to.be.withBody; //Revisa si el cuerpo del JSON existe ",
+							"     pm.response.to.be.json; //Revisa si es JSON",
+							"});",
+							"",
+							"pm.test(\"Revisión del campo STATUS en la respuesta sea TRUE\", () => { ",
+							"    pm.expect(pm.response.json().status).to.equal(true); // Valida que el estado del campo status sea TRUE",
+							"});",
+							"",
+							"pm.test(\"Revisión de que todos los id's no vengan vacios\", () => { ",
+							"//Revisa iterativamente que todos los ids de los productos existan",
+							" _.each(pm.response.json().data, (arrItem) => {",
+							"        pm.expect(arrItem.id).not.equal(null);",
+							" });",
+							"});",
+							" ",
+							" pm.test(\"Validación que la respuesta sea en menos de 500ms\", function () {",
+							"    //Valida que el tiempo de respuesta sea menos a 500 milisegundos",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f536ee6c-e1d4-4fed-93f6-2977061c951d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://sbx-api-sec.ziniopro.com/catalog/v2/catalogs?",
+					"protocol": "https",
+					"host": [
+						"sbx-api-sec",
+						"ziniopro",
+						"com"
+					],
+					"path": [
+						"catalog",
+						"v2",
+						"catalogs"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "access_token",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Get Catalog response"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": {
+			"accessToken": "",
+			"addTokenTo": "header"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e7d3af44-4b39-4885-9151-faee0b378f06",
+				"type": "text/javascript",
+				"exec": [
+					"//Entrega de información para obtener TOKEN para la ejecución de las operaciones que se van a probar",
+					"let tokenUrl = 'https://sbx-api-sec.ziniopro.com/oauth/v2/tokens';",
+					"let clientId = 'C9EeT8cWZ7u7LcYYvOTlFyONeHCN3OZp';",
+					"let clientSecret = 'ns1huoaQM3aCPq1yh6dcizirP99cMrsc';",
+					"let scope = '';",
+					"",
+					"let getTokenRequest = {",
+					"    method: 'POST',",
+					"    url: tokenUrl,",
+					"    auth: {",
+					"        type: \"basic\",",
+					"        basic: [",
+					"            { key: \"username\", value: clientId },",
+					"            { key: \"password\", value: clientSecret }",
+					"        ]",
+					"    },",
+					"    body: {",
+					"        mode: 'formdata',",
+					"        formdata: [",
+					"            { key: 'grant_type', value: 'client_credentials' },",
+					"            { key: 'scope', value: scope }",
+					"        ]",
+					"    }",
+					"};",
+					"",
+					"pm.sendRequest(getTokenRequest, (err, response) => {",
+					"    let jsonResponse = response.json(),",
+					"        newAccessToken = jsonResponse.access_token;",
+					"",
+					"    console.log({ err, jsonResponse, newAccessToken });",
+					"",
+					"    pm.environment.set('accessToken', newAccessToken);",
+					"    pm.variables.set('accessToken', newAccessToken);",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d5a3b191-6134-4f13-bacd-88d3f2d50372",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

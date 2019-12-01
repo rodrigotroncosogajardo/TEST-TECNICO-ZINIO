@@ -1,0 +1,15 @@
+{
+  "name": "test-tecnico-zinio",
+  "version": "1.0.0",
+  "description": "Prueba Tecnica Zinio",
+  "directories":{
+	"test":"TEST"  
+  },
+  "scripts": {
+    "api-test-zinio": "newman run TEST/API-Catalog-Zinio.postman_collection.json"
+  },
+  "author": "Rodrigo Troncoso",
+  "dependencies": {
+    "newman": "^4.5.6"
+ }
+}
