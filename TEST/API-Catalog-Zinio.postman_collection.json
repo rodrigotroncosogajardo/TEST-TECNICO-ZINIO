@@ -40,9 +40,9 @@
 							" });",
 							"});",
 							" ",
-							" pm.test(\"Validación que la respuesta sea en menos de 100ms\", function () {",
-							"    //Valida que el tiempo de respuesta sea menos a 500 milisegundos",
-							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							" pm.test(\"Validación que la respuesta sea en menos de 200ms\", function () {",
+							"    //Valida que el tiempo de respuesta sea menos a 200 milisegundos",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
 							"});",
 							""
 						],
